@@ -137,6 +137,7 @@ def plot_menu(df):
         print("2: Histogram")
         print("3: Line chart")
         print("4: Bar chart")
+        print("5: Scatter plot")  # NEW OPTION
         print("0: Exit plotting")
         choice = input("Choose a plot type: ").strip()
         if choice == '0':
@@ -146,33 +147,59 @@ def plot_menu(df):
             sns.heatmap(df.corr(), annot=True, cmap='coolwarm')
             plt.title("Correlation Heatmap")
             plt.show()
-        elif choice in ['2', '3', '4']:
+        elif choice == '2':
             print("Numeric columns:", numeric_cols)
             cols = input("Enter column(s) to plot (comma separated): ").strip().split(',')
             cols = [c.strip() for c in cols if c.strip() in numeric_cols]
             if not cols:
                 print("No valid numeric columns selected.")
                 continue
-            if choice == '2':
-                df[cols].hist(figsize=(8, 6))
+            df[cols].hist(figsize=(8, 6))
+            plt.show()
+        elif choice == '3':
+            print("Numeric columns:", numeric_cols)
+            x_col = input("Enter column for X-axis: ").strip()
+            y_col = input("Enter column for Y-axis: ").strip()
+            if x_col not in numeric_cols or y_col not in numeric_cols:
+                print("Invalid column selection. Please choose from numeric columns.")
+                continue
+            plt.figure(figsize=(8, 6))
+            plt.plot(df[x_col], df[y_col], marker='o')
+            plt.xlabel(x_col)
+            plt.ylabel(y_col)
+            plt.title(f"Line Chart: {y_col} vs {x_col}")
+            plt.grid(True)
+            plt.show()
+        elif choice == '4':
+            print("Numeric columns:", numeric_cols)
+            cols = input("Enter column(s) to plot (comma separated): ").strip().split(',')
+            cols = [c.strip() for c in cols if c.strip() in numeric_cols]
+            if not cols:
+                print("No valid numeric columns selected.")
+                continue
+            for col in cols:
+                plt.figure(figsize=(8, 6))
+                counts = df[col].value_counts()
+                counts.plot(kind='bar')
+                plt.title(f"Bar Chart - {col}")
+                plt.ylabel("Count")
+                for i, v in enumerate(counts):
+                    plt.text(i, v + 0.05 * v, str(v), ha='center')
                 plt.show()
-            elif choice == '3':
-                df[cols].plot(figsize=(8, 6))
-                plt.xlabel("Index")
-                plt.ylabel("Value")
-                plt.title("Line Chart")
-                plt.show()
-            elif choice == '4':
-                for col in cols:
-                    plt.figure(figsize=(8, 6))
-                    counts = df[col].value_counts()
-                    counts.plot(kind='bar')
-                    plt.title(f"Bar Chart - {col}")
-                    plt.ylabel("Count")
-                    # Add value labels
-                    for i, v in enumerate(counts):
-                        plt.text(i, v + 0.05 * v, str(v), ha='center')
-                    plt.show()
+        elif choice == '5':  # SCATTER PLOT OPTION
+            print("Numeric columns:", numeric_cols)
+            x_col = input("Enter column for X-axis: ").strip()
+            y_col = input("Enter column for Y-axis: ").strip()
+            if x_col not in numeric_cols or y_col not in numeric_cols:
+                print("Invalid column selection. Please choose from numeric columns.")
+                continue
+            plt.figure(figsize=(8, 6))
+            plt.scatter(df[x_col], df[y_col])
+            plt.xlabel(x_col)
+            plt.ylabel(y_col)
+            plt.title(f"Scatter Plot: {y_col} vs {x_col}")
+            plt.grid(True)
+            plt.show()
         else:
             print("Invalid choice.")
 
