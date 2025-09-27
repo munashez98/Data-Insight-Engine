@@ -1,5 +1,5 @@
 # Data-Insight-Engine
-A Python [tool](https://github.com/munashez98/Data-Insight-Engine) for automatically generating data insights from any CSV dataset. This engine performs data exploration, preprocessing, outlier detection, correlation analysis, and optionally builds a classification model with feature importance—ideal for analysts, data scientists, or anyone who wants actionable insights quickly.
+A Python tool for automatically generating data insights from any CSV dataset. This engine performs data exploration, preprocessing, outlier detection, correlation analysis, and optionally builds a classification model with feature importance—ideal for analysts, data scientists, or anyone who wants actionable insights quickly.
 
 # Features
 - Automatic package installation if dependencies are missing.
